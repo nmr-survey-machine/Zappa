@@ -500,7 +500,7 @@ class Zappa:
             zappa_version = 'master'
             for dep, version in zappa_deps:
                 if dep != 'zappa':
-                    pkg_list.append({0!s}=={1!s}'.format(dep, version))
+                    pkg_list.append('{0!s}=={1!s}'.format(dep, version))
                 else:
                     zappa_version = version
             # add our zappa version
