@@ -492,7 +492,21 @@ class Zappa:
 
         # Use pip to download zappa's dependencies. Copying from current venv causes issues with things like PyYAML that installs as yaml
         zappa_deps = self.get_deps_list("zappa")
-        pkg_list = ["{0!s}=={1!s}".format(dep, version) for dep, version in zappa_deps]
+
+        custom_zappa_source = 'git+https://github.com/nmr-survey-machine/Zappa'
+        if custom_zappa_source:
+            # add dependencies, but not zappa
+            pkg_list = []
+            zappa_version = 'master'
+            for dep, version in zappa_deps:
+                if dep != 'zappa':
+                    pkg_list.append({0!s}=={1!s}'.format(dep, version))
+                else:
+                    zappa_version = version
+            # add our zappa version
+            pkg_list.append(f'{custom_zappa_source}@{zappa_version}')
+        else:
+            pkg_list = ["{0!s}=={1!s}".format(dep, version) for dep, version in zappa_deps]
 
         # Need to manually add setuptools
         pkg_list.append("setuptools")
